@@ -1,0 +1,29 @@
+https://codeforces.com/contest/2123/problem/E
+
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 2e5 + 5;
+int a[N], b[N], c[N];
+int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0); cout.tie(0);
+	int t; cin >> t;
+	while (t --) {
+		int n; cin >> n;
+		for (int i = 1; i <= n; i ++) cin >> a[i], c[a[i]] ++;
+		int sum = 0;//此数前面的可删除的项数（对答案无影响） 
+		for (int i = 0; i <= n + 1; i ++) {
+			int l = c[i], r = sum + c[i] + (n - (sum + i) - c[i]);
+		//l表示要让mex为这个数至少删几个 r最多删几个，超过了只能删除他之前的有效数字mex会小于这个值	
+			b[l] ++, b[r + 1] --;
+			if (!c[i]) break;
+		//不存在这个数说明原数组mex最大为这个数，那么无论怎么删mex也不会取大于这个数的数 
+			sum += c[i] - 1;//统计这个数之前的可删项 
+		}
+		for (int i = 1; i <= n; i ++) b[i] += b[i - 1];//对一段区间内结果产生影响要考虑差分 
+		for (int i = 0; i <= n; i ++) cout << b[i] << ' ';
+		for (int i = 0; i <= n + 1; i ++) c[a[i]] = 0, b[i] = 0;
+		cout << '\n';
+	}
+	return 0;
+}
