@@ -1,0 +1,52 @@
+https://codeforces.com/problemset/problem/2121/E
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int mod=998244353;
+#define ll __int128_t
+
+
+void solve()
+{	
+ string l,r;
+ cin>>l>>r;
+ if(l==r)
+ {
+ 	cout<<l.size()*2<<endl;
+ 	return;
+ }
+ int pre=0;//相同前缀 
+ while(pre<l.size()&&l[pre]==r[pre])pre++;
+ if(l[pre]+1<r[pre])
+ {
+ 	cout<<pre*2<<endl;
+ }
+ else
+ {
+ 	int ans=pre*2+1;//假如l这项为2 r这项为3  那么x的这项取2/3 
+ 	for(int i=pre+1;i<l.size();i++)
+ 	{
+ 	 if(l[i]=='9'&&r[i]=='0')ans++;
+	 else break;	
+	}
+	cout<<ans<<endl;
+ }
+ 
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
