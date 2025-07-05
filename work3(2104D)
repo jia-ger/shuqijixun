@@ -1,0 +1,51 @@
+https://codeforces.com/problemset/problem/2104/D
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=6e6;
+const int mod=998244353;
+#define ll __int128_t
+
+int a[N],p[N],f[N];
+void solve()
+{	
+ int n;
+ cin>>n;
+ for(int i=1;i<=n;i++)
+ cin>>a[i];
+ sort(a+1,a+n+1,greater<int>());
+ int suma=0,sump=0;
+ int ans=0;
+ for(itn i=1;i<=n;i++)
+ {
+ 	suma+=a[i];
+	sump+=p[i];
+	if(suma>=sump) ans=i;//数组和只能在与原基础不变或减少，大于质数和说明可以变成这几个质数 
+ }
+ 
+ cout<<n-ans<<endl; 
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+   cin>>T;
+   int ge=1;
+   for(itn i=2;i<N;i++)
+   {
+   	if(f[i])continue;
+   	p[ge++]=i;//p存质数 
+   	for(int j=i;j<N;j+=i)
+   	f[j]=1;
+   }
+   while(T--)solve();
+   
+	return 0;
+}
+  
