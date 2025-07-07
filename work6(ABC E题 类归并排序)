@@ -1,0 +1,37 @@
+https://atcoder.jp/contests/abc413/tasks/abc413_e
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ll T, N, M, P[550000];
+void dfs(ll L, ll R)
+{
+	ll len = R - L + 1;
+	if (len == 1) return ;
+	ll hlen = len / 2, mid = L + hlen - 1;
+	dfs(L, mid);
+	dfs(mid + 1, R);
+	if (P[L] > P[mid + 1])
+	{
+		vector<ll> tmp;
+		for (int i = mid + 1; i <= R; i++) tmp.push_back(P[i]);
+		for (int i = L; i <= mid; i++) tmp.push_back(P[i]);
+		for (int i = L; i <= R; i++) P[i] = tmp[i - L];
+	}
+}
+int main()
+{
+	scanf("%lld", &T);
+	while (T--)
+	{
+		scanf("%lld", &N);
+		M = pow(2, N);
+		for (int i = 1; i <= M; i++)
+			scanf("%lld", &P[i]);
+		dfs(1, M);
+		for (int i = 1; i <= M; i++)
+			printf("%lld ", P[i]);
+		printf("\n");
+	}
+	return 0;
+}
