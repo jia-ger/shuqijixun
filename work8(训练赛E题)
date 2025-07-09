@@ -1,0 +1,103 @@
+https://atcoder.jp/contests/abc204/tasks/abc204_e
+
+分析：设第 i 条边的两个端点为 u 和 v，从 u 离开走向 v 的时刻为 t，则到达 v 的时刻为t+Ci+di/(t+1)
+转化一下，变为 t+1+di/(t+1) +Ci-1后面 ci−1 是定值，前面利用基本不等式可以得到最小值为 2倍根号di 当且仅当t=根号di-1
+t的函数曲线为对勾函数
+跑 Dijkstra，对于从 u 到 v，如果t<极值点取极值 >的话t立马出发则为最短
+
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128_t
+
+int e[N],ne[N],c[N],idx,d[N],h[N];
+int t[N],f[N];
+void add(int a,int b,int x,int y)
+{
+	e[idx]=b;
+	ne[idx]=h[a];
+	c[idx]=x;
+	d[idx]=y;
+	h[a]=idx++;
+}
+void dj()
+{
+	priority_queue<PII,vector<PII>,greater<PII>>q;
+	q.push({0,1});//花费的时间 城市
+	while(q.size())
+	{
+	  auto start=q.top();
+	  q.pop();
+	  int dis=start.first;
+	  int city=start.second;
+	  if(f[city])continue;
+	  f[city]=1;
+	  for(int i=h[city];i!=-1;i=ne[i])
+	  {
+	  	
+	  	int v=e[i];
+	  	int u=city;
+	  	if (!d[i]) {
+                if (t[v] > t[u] + c[i]) {
+                    t[v] =t[u] + c[i];
+                    q.push ({t[v], v});
+                }
+                continue;
+            }
+            
+	  	int x=(int)(2*sqrt(d[i]*1.0)-1); 
+	  	
+	  	if(t[u]>sqrt(d[i]*1.0)-1)
+	  	{
+	  	 if(t[u]+c[i]+d[i]/(t[u]+1)<t[v])
+		   {
+		    t[v]=t[u]+c[i]+d[i]/(t[u]+1);
+		    q.push({t[v],v});
+		   }	
+		}
+		else {
+                if (x + c[i] < t[v]) {
+                    t[v] = x + c[i];
+                    q.push ({t[v], v});
+                }
+            }
+	  }	
+	} 
+	return;
+}
+void solve()
+{ 
+  memset(h,-1,sizeof h);	
+  int n,m;cin>>n>>m;
+  for(int i=1;i<=m;i++)
+  {
+  	int u,v,x,y;
+  	cin>>u>>v>>x>>y;
+  	add(u,v,x,y);
+  	add(v,u,x,y);
+  }
+  for(int i=1;i<=n;i++)t[i]=INF;
+  t[1]=0;
+  dj();
+  cout << (t[n] == INF ? -1 : t[n]);
+  
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
