@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define str string
+#define db double
+using namespace std;
+ll t, n, q, x, y, d;           //习惯性开long long
+str s;
+
+//sqrt() 就是这个正方形的行数 2*2=4
+
+//这个处理数值
+inline void sfn (ll MAX, ll zhi) {
+	if (MAX == 1)          //如果矩阵只剩1*1就退出
+		return;
+	if (zhi <= MAX / 4) {         //左上角
+		sfn (MAX / 4, zhi);
+	} else if (zhi <= MAX / 2) {  //右下角
+		x += sqrt (MAX / 4), y += sqrt (MAX / 4);      //更改所求坐标的值
+		sfn (MAX / 4, zhi -= (MAX / 4) );               //更改给定的值，方便后续操作
+	} else if (zhi <= ( (MAX / 4) * 3) ) {  //左下角
+		x += sqrt (MAX / 4);
+		sfn (MAX / 4, zhi -= (MAX / 2) );
+	} else {                       //右上角
+		y += sqrt (MAX / 4);
+		sfn (MAX / 4, zhi -= ( (MAX / 4) * 3) );
+	}
+}
+//这个处理的是坐标
+inline ll sfen (ll MAX, ll zhi) {
+	if (MAX == 1)
+		return zhi;
+	if (x <= sqrt (MAX) / 2) {          //坐标在矩上面边这一半
+		if (y <= sqrt (MAX) / 2) {
+			return sfen (MAX / 4, zhi);
+		} else {
+			y -= sqrt (MAX / 4);         //限制x、y的值，方便操作
+			return sfen (MAX / 4, zhi + ( (MAX / 4) * 3) );          //对所求的答案进行更改，并继续递归
+		}
+	} else {                 //坐标在矩阵下面这一半
+		if (y <= sqrt (MAX) / 2) {
+			x -= sqrt (MAX / 4);
+			return sfen (MAX / 4, zhi + (MAX / 2) );
+		} else {
+			x -= sqrt (MAX / 4), y -= sqrt (MAX / 4);
+			return sfen (MAX / 4, zhi + (MAX / 4) );
+		}
+	}
+}
+int main() {
+	//输入输出加速
+	ios::sync_with_stdio (false),cin.tie (0),cout.tie (0);
+	cin >> t;
+	while (t--) {
+		cin >> n >> q;
+		n = pow (2, 2 * n);      //将n赋值为最大的可以填入矩阵的值
+		for (ll i = 1; i <= q; i++) {
+			//题中给了，先给出->或<-提示接下来输入的是坐标还是数值
+			cin >> s;
+			if (s == "->") {
+				//注意，这里的x指的是矩阵的行，y指的是列
+				cin >> x >> y;
+				ll zhi = sfen (n, 1);       //处理坐标
+				cout << zhi << endl;
+			} else {
+				cin >> d, x = y = 1;
+				sfn (n, d);        //处理数值
+				cout << x << " " << y << endl;
+			}
+		}
+	}
+	return 0;
+}
