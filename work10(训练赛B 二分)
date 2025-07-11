@@ -1,0 +1,58 @@
+https://atcoder.jp/contests/abc376/tasks/abc376_c
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int mod=998244353;
+const int INF=1e18;
+#define ll __int128_t
+
+int n;
+int a[N],b[N];
+bool check(itn mid)
+{  
+    int j=1;
+	for(int i=1;i<=n;i++)
+	{
+		if(i==mid)continue;
+		if(a[i]>b[j])
+		{
+			return false;
+		}
+		j++;
+	}
+	return true;
+}
+void solve() 
+{
+	 cin>>n;
+	 for(int i=1;i<=n;i++)
+	 cin>>a[i];
+	 for(itn i=1;i<=n-1;i++)
+	 cin>>b[i];
+	 sort(a+1,a+1+n);
+	 sort(b+1,b+n);
+	 int l=1,r=n+1;
+	 while(l<r)
+	 {  itn mid=l+r>>1;
+	 	if(check(mid))r=mid;
+	 	else l=mid+1;
+	 }
+	 if(l==n+1)cout<<-1<<endl;
+	 else cout<<a[l]<<endl;
+}
+
+
+signed main() {
+	cin.tie(0)->sync_with_stdio(0);
+	int T=1;
+//   cin>>T;
+	while(T--)solve();
+
+	return 0;
+}
