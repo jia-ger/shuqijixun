@@ -1,0 +1,92 @@
+https://atcoder.jp/contests/abc414/tasks/abc414_c
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128_t
+
+
+string toA(int n, int base) {
+    if (n == 0) return "0";
+    string res;
+    while (n > 0) {
+        int r = n % base;
+        char c = (r < 10) ? (r+'0') : (r-10+'a');
+        res+=c;
+        n /= base;
+    }
+    reverse(res.begin(), res.end());
+    return res;
+}
+bool isP(string s) {
+    int l= 0;
+    int r= s.size() - 1;
+    while (l< r) {
+        if (s[l] != s[r]) {
+            return false;
+        }
+        l++;
+        r--;
+    }
+    return true;
+}
+//利用函数构造回文数 只用考虑前半部分 时间是根号n 优于暴力枚举的n 
+vector<long long> genP(long long N) {
+    vector<long long> res;
+    string max_s = to_string(N);
+    int max_len = max_s.size();
+
+    for (int len = 1; len <= max_len; ++len) {
+        int half = (len + 1) / 2;
+        long long start = pow(10, half - 1);
+        long long end = pow(10, half);
+
+        for (long long h = start; h < end; ++h) {
+            string s = to_string(h);
+            string p;
+            if (len % 2 == 0) {
+                p = s;
+                reverse(s.begin(), s.end());
+                p += s;
+            } else {
+                p = s.substr(0, s.size() - 1);
+                reverse(s.begin(), s.end());
+                p += s;
+            }
+            long long num = stoll(p);
+            if (num <= N) res.push_back(num);
+        }
+    }
+    return res;
+}
+void solve()
+{ 
+    int A,N;
+    cin >> A >> N;
+    auto pals = genP(N);
+    long long sum = 0;
+    for (auto num : pals) {
+        if (isP(toA(num, A))) {
+            sum += num;
+        }
+    }
+    cout << sum << endl;
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
