@@ -1,0 +1,61 @@
+https://atcoder.jp/contests/abc414/tasks/abc414_d
+
+翻译一下题面，是将有 n 个点的序列分为 m 个区间来覆盖，要求每个区间的长度之和最小（其它都是迷惑性条件）。
+用样例来举例，显然，形成 3 个红色覆盖区间的同时也形成了 2 个蓝色未覆盖区间。
+想让 3 个红色区间的长度之和最小，反过来想，就是让 2 个蓝色区间的长度之和最大。
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=5e5+10;
+const int mod=998244353;
+const int INF=1e18;
+#define ll __int128_t
+
+void solve() {
+	int n,m;
+	cin>>n>>m;
+	vector<int>xx;
+	for(int i=1;i<=n;i++)
+	{
+		int x;
+		cin>>x;
+		xx.push_back(x);
+	}
+	
+	sort(xx.begin(),xx.end());
+	xx.erase(unique(xx.begin(),xx.end()),xx.end());
+	if(xx.size()<=m)
+	{
+		cout<<0;
+		return;
+	}
+	vector<int >q;
+	int sum=0;
+	for(int i=1;i<n;i++)
+	q.push_back(xx[i]-xx[i-1]),sum+=xx[i]-xx[i-1];
+	
+	sort(q.begin(),q.end(),greater<int>());
+	
+	int t=m-1;
+	for(int i=0;i<t;i++)
+	{
+	 	sum-=q[i];
+	} 
+	cout<<sum;
+}
+
+
+
+signed main() {
+	cin.tie(0)->sync_with_stdio(0);
+	int T=1;
+//  cin>>T;
+	while(T--)solve();
+
+	return 0;
+}
