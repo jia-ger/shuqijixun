@@ -1,0 +1,32 @@
+https://codeforces.com/problemset/problem/2075/C
+
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+const int N = 2e5 + 55;
+int n, m, a[N], s[N];
+signed main() {
+	ios::sync_with_stdio(false);
+	cin.tie(0), cout.tie(0);
+	int T;
+	cin >> T;
+	while (T--) {
+		cin >> n >> m;
+		for (int i = 1;i <= n + 1;i++) s[i] = 0;
+		for (int i = 1;i <= m;i++) {
+			cin >> a[i];
+			s[a[i]]++;//方案数
+		}
+		for (int i = n;i >= 1;i--) {
+			s[i] += s[i + 1];
+		}
+		int ans = 0;
+		for (int i = 1;i < n;i++) {
+			int c = i, d = n - i;
+			int e = max(c, d), f = min(c, d);
+			ans += s[e] * (s[f] - 1);
+		}
+		cout << ans << "\n";
+	}
+	return 0;
+}
