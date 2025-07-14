@@ -1,0 +1,84 @@
+https://atcoder.jp/contests/abc384/tasks/abc384_e
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=550;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128_t
+
+int s[N][N];
+int f[N][N];
+int x[]={1,-1,0,0};
+int y[]={0,0,1,-1}; 
+
+void solve()
+{ 
+  itn h,X,w,p,q;
+  cin>>h>>w>>X>>p>>q;
+  for(int i=1;i<=h;i++)
+   for(itn j=1;j<=w;j++)
+   cin>>s[i][j];
+
+   priority_queue<pair<int,PII>,vector<pair<int,PII>>,greater<pair<int,PII>>>qq;//值 坐标 
+   qq.push({s[p][q],{p,q}});
+   
+   int power=s[p][q];
+   f[p][q]=1;
+   for(itn i=0;i<4;i++)
+   	 {
+   	  int dx=p+x[i];
+   	  int dy=q+y[i];
+   	  if(dx>=1&&dx<=h&&dy>=1&&dy<=w)
+   	  qq.push({s[dx][dy],{dx,dy}});   			 	
+	 }
+   while(qq.size())//贪心 让较小的值先被吸收 
+   {
+   	 auto t=qq.top();
+   	 qq.pop();
+   	 
+   	 int zhi=t.first;
+   	 int xx=t.second.first;
+   	 int yy=t.second.second;
+//     cout<<"zhi="<<zhi<<" "<<xx<<" "<<yy<<endl;
+   	 
+   	 if((power+X-1)/X>s[xx][yy]&&!f[xx][yy])
+   	 {
+   	  f[xx][yy]=1;	
+	  power+=zhi;	 	
+//	  cout<<zhi<<endl;
+	 }//可以被吸收的吸收其值 
+	 else 
+	{
+	  f[xx][yy]=1;	
+	  continue;
+    }
+	 //不能吸收且不是初始值的直接跳过 
+   	 for(itn i=0;i<4;i++)
+   	 {
+   	  int dx=xx+x[i];
+   	  int dy=yy+y[i];
+   	 
+   	  if(!f[dx][dy]&&dx>=1&&dx<=h&&dy>=1&&dy<=w)
+   	  qq.push({s[dx][dy],{dx,dy}});   			 	
+	 }
+   	  
+   }
+   cout<<power;
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
