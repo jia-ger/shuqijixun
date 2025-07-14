@@ -1,0 +1,65 @@
+https://atcoder.jp/contests/abc414/tasks/abc414_e
+
+基础代码：
+#include <bits/stdc++.h>
+#define int long long
+#define mod 998244353
+using namespace std;
+
+signed main() {
+    int N;
+    cin >> N;
+    int ans = 0;
+    for (int b = 2; b <= N - 1; ++b) {
+        int max_c = min(b - 1, N - b);//因为a=b+c b+c<=n
+        if (max_c < 1) continue;
+        for (int c = 1; c <= max_c; ++c) {
+            ans = (ans + (N - c) / b) % mod;
+        }
+    }
+    cout << ans << '\n';
+    return 0;
+}
+
+正解（未看懂）
+
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+using PII = pair<int, int>;
+using PLL = pair<ll ,ll>;
+const int mod = 998244353;
+
+ll ksm(int m, int k, int p) {
+    ll res = 1, t = m;
+    while (k) {
+        if (k & 1) res = res * t % p;
+        k >>= 1;
+        t = t * t % p;
+    }
+
+    return res;
+}
+
+void solve() {
+    ll n;
+    cin >> n;
+    ll sum = ((n % mod) * ((n + 1) % mod)) % mod * ksm(2, mod - 2, mod) % mod;//a总共可能的数    
+  
+    for (int i = 1; i <= n / i; i++) { 
+        ll all = 0;
+        if (i <= n / i) all += (n / i - (i - 1)) * 2 - 1;
+        else all += (n / i - (i - 1)) * 2;
+        sum = (sum - all + mod) % mod;
+    }
+    cout << sum << "\n";
+}
+
+int main() {
+    int t = 1;
+    // cin >> t;
+    while (t--) 
+    solve();
+    return 0;
+}
