@@ -1,0 +1,66 @@
+https://atcoder.jp/contests/abc376/tasks/abc376_e
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128_t
+
+struct abd{
+	int a,b;
+}x[N];
+
+bool cmp(abd q,abd p)
+{   
+	return q.a<p.a;
+}
+void solve()
+{ 
+ int n,k;cin>>n>>k;
+ for(itn i=1;i<=n;i++)
+ icn>>x[i].a;
+ for(itn i=1;i<=n;i++)
+ cin>>x[i].b; 
+ sort(x+1,x+n+1,cmp);
+ 
+ int sum=0;//存bi求和 
+ 
+ priority_queue<int>q;
+ for(int i=1;i<=k;i++)
+ {
+ sum+=x[i].b;
+ q.push(x[i].b);
+ }
+ 
+ int ans=sum*x[k].a;
+  
+ for(int i=k+1;i<=n;i++)//不难发现 a[i]最大值枚举到这个ai时这个i属于s所以对应的b[i]必选  
+ {
+ 	while(q.size()>=k)//从前面选k-1个数  
+	{   sum-=q.top(); 
+	 	q.pop();
+	} 
+	ans=min(ans,(sum+x[i].b)*x[i].a);
+	q.push(x[i].b);
+	sum+=x[i].b; 
+ }
+	 	
+ cout<<ans<<endl;
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
