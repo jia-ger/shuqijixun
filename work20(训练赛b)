@@ -1,0 +1,58 @@
+https://atcoder.jp/contests/abc293/tasks/abc293_c
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128_t
+
+int a[15][15];
+int ans=0;
+bool b[1000000001]; 
+int n,m;
+void dfs(int x,int y)
+{   
+    
+if(x==n&&y==m){//到了
+		ans++;
+		return;
+	}
+	if(x<n&&!b[a[x+1][y]]){//向下
+		b[a[x+1][y]]=1;
+		dfs(x+1,y);
+		b[a[x+1][y]]=0;//回溯
+	}
+	if(y<m&&!b[a[x][y+1]]){//向右
+		b[a[x][y+1]]=1;
+		dfs(x,y+1);
+		b[a[x][y+1]]=0;//回溯
+	}
+}
+void solve()
+{ 
+
+  cin>>n>>m;
+  for(itn i=1;i<=n;i++)
+  for(itn j=1;j<=m;j++)
+  cin>>a[i][j];
+  b[a[1][1]]=1;
+  dfs(1,1); 
+  cout<<ans;
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
