@@ -1,0 +1,58 @@
+https://ac.nowcoder.com/acm/contest/113664/A
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128_t
+
+vector<long long> fact;
+void init_factorial(int max_n) {
+    fact.resize(max_n + 1);
+    fact[0] = 1;
+    for (int i = 1; i <= max_n; i++) {
+        fact[i] = fact[i - 1] * i % mod;
+    }
+}
+long long kind(int n, int m) {
+    if (m == 0 || n < m) return 0;
+    if (m == 1 || n == m) return 1;
+    vector<long long> prev(m + 1, 0), curr(m + 1, 0);
+    prev[0] = 1; 
+    for (int i = 1; i <= n; i++) {
+        curr[0] = 0;
+        for (int j = 1; j <= m; j++) {
+            curr[j] = (prev[j - 1] + j * prev[j]) % mod;
+        }
+        prev = curr;
+    }
+    return prev[m];
+}
+void solve()
+{ 
+ int n,m;cin>>n>>m;
+  if (n < m) {
+        cout << 0 << endl;
+        return;
+    }
+    init_factorial(m);
+    long long S =kind(n, m);
+    long long ans = fact[m] * S % mod;
+    cout << ans << endl;
+} 
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
