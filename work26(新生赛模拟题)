@@ -1,0 +1,71 @@
+https://ac.nowcoder.com/acm/contest/113664/D
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=1e4;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128_t
+
+void solve()
+{ 
+ int n,q;cin>>n>>q;
+// order[i] 表示时刻 i 收到去 order[i] 楼层的指令
+ vector<int> order(N + 1); 
+ for(int i=1;i<=n;i++)
+ {
+ 	int t,f;
+ 	cin>>t>>f;
+ 	order[t]=f;
+ }
+ int x=1;//当前位置 
+ int p=0;//1向上 -1向下 0不动
+ int orders=0;//待处理命令，如果 (orderset >> i) == 1，表示存在去楼层 i 的指令
+     // ans[i] 表示时刻 i 电梯位置
+vector<int> ans(N + 1);
+ for(int t=0;t<=N;++t)
+ {
+  ans[t]=x;
+  if(order[t]!=0&&order[t]!=x)
+  orders|=(1LL<<order[t]);//添加指令 
+  //已经到达要删除指令 
+  orders&=~(1LL<<x); 
+  
+  bool up=(orders>>x) > 0;//还存在向上的指令 
+  bool down=((1LL<<x)-1)&orders;//还存在向下的指令 
+   if(p>=0)//向上或不动
+   {
+   	if(up)p=1;//向上优先处理向上的指令 
+   	else if(down)p=-1;
+   	else p=0;
+   } 
+   else
+   {
+   	if(down)p=-1;//向下优先处理向下的指令 
+   	else if(up)p=1;
+   	else p=0;
+	}
+	x+=p; 
+   } 
+  for (int i = 1; i <= q; ++i) {
+        int Q;
+        cin >> Q;
+        cout << ans[Q] << '\n';
+    }
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
