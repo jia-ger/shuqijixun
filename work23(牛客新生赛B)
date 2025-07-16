@@ -1,0 +1,80 @@
+https://ac.nowcoder.com/acm/contest/113664/B
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=1e6+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128_t
+
+int min_cost(int a, int b, int C1, int C2, int C3) {
+    if (a == b) return 0;
+    if (a > b) {
+        return (a - b) * C2;
+    }
+    itn up=2*b;
+    vector<itn> dist(up+1,INF);
+    dist[a] = 0;
+    priority_queue<PII, vector<PII>, greater<PII>> pq;
+    pq.push({0, a});
+
+    while (!pq.empty()) {
+        auto t= pq.top();
+        int cost=t.first;
+        int u=t.second;
+        pq.pop();
+
+        if (u == b) {
+            return cost;
+        }
+
+        if (cost > dist[u]) {
+            continue; 
+        }
+        if (u + 1 <= up) {
+            int new_cost = cost + C1;
+            if (new_cost < dist[u + 1]) {
+                dist[u + 1] = new_cost;
+                pq.push({new_cost, u + 1});
+            }
+        }
+        if (u - 1 >= 1) {
+            int new_cost = cost + C2;
+            if (new_cost < dist[u - 1]) {
+                dist[u - 1] = new_cost;
+                pq.push({new_cost, u - 1});
+            }
+        }
+        if (u * 2 <= up) {
+            itn new_cost = cost + C3;
+            if (new_cost < dist[u * 2]) {
+                dist[u * 2] = new_cost;
+                pq.push({new_cost, u * 2});
+            }
+        }
+    }
+
+    return -1;
+}
+void solve()
+{ 
+  int a,b,c1,c2,c3;
+  cin>>a>>b>>c1>>c2>>c3;
+  cout<<min_cost(a,b,c1,c2,c3)<<endl;
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
