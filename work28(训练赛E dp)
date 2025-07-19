@@ -1,0 +1,42 @@
+https://atcoder.jp/contests/abc370/tasks/abc370_e
+
+所需知道的前置信息：由于有 n−1 个间隔（比如 n=3 时有 2 个间隔：{1|2|3}）每个间隔有 2 种选择（分割或不分割），因此总的划分方式数为：2^(n-1)
+不能顺利转移说明存在 si−sj=k 的情况。si表示前缀和。
+那么我们找到那些满足 sj=si−k 的位置，排除掉即可。
+这样做仍然不好做，考虑改变状态设计，我们状态可以不和 i 有关，直接和si有关 gsi表示前缀和为 si的方案数。f[i]=(Σg)(全集)-g[s[i]-k](不合法方案：也就是出现的sj的方案数)
+
+设 fi 表示第 i 个位置作为结尾的合法方案数
+
+#include<bits/stdc++.h>
+#define int long long
+using namespace std;
+const int mod = 998244353;
+const int t = 2e6;
+int a[t];
+int f[t];
+int s[t];
+void solve() {
+	int n, k;
+	cin >> n >> k;
+	for (int i = 1; i <= n; i++) {
+		cin >> a[i];
+		s[i] = s[i - 1] + a[i];
+	}
+	int sum = 0;
+	map<int, int>mp;
+	mp[0] = 1;
+	sum = 1;
+	for (int i = 1; i <= n; i++) {
+		f[i] = (f[i] + sum - mp[s[i] - k]) % mod;
+		mp[s[i]] += f[i];
+		sum += f[i];
+	}
+	cout << f[n] << endl;
+}
+signed main() {
+	int _ = 1;
+	while (_--) {
+		solve();
+	}
+	return 0;
+}
