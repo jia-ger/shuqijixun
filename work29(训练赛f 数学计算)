@@ -1,0 +1,57 @@
+https://atcoder.jp/contests/abc293/tasks/abc293_e?lang=en
+
+等比数列求和 s=(a^x-1)/(a-1);
+(a^x−1)≡k⋅(a−1)(mod m⋅(a−1))
+所以计算后 a^x-1一定是 a-1的倍数
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+int a,x,m;
+ll p;
+ll qmi(ll aa,ll b)
+{
+	ll t=1;
+	while(b!=0)
+	{
+		if(b&1)t=t*aa%p;
+		b>>=1;
+		aa=aa*aa%p;
+	}
+	return !t?p:t;//这里要注意当mod以后为0要变成p 防止-1那里变成负数 
+}
+ll nav(int t)
+{
+	return qmi(t,p-2);
+}
+void solve()
+{ 
+  cin>>a>>x>>m;
+  if(a==1)
+  {
+  	cout<<x%m;return;
+  }
+  p=m*(a-1);
+
+  cout<<(int)(qmi(a,x)-1)/(a-1);
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
