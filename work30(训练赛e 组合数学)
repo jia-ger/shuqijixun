@@ -1,0 +1,35 @@
+https://atcoder.jp/contests/abc358/tasks/abc358_e
+
+计数的题大多都是数学题和 dp 题
+组合数可以通过杨辉三角预处理求得
+设 dp[i][j]表示前 i 个字母组成长度为 j 的字符串的方案数
+dp[i+1][j]=ΣC[j][k]*dp[i][j-k];
+
+#include<bits/stdc++.h>
+#define N 1005
+#define int long long
+using namespace std;
+const int mod=998244353;
+int C[N][N],k,c[N],dp[N][N],ans;
+signed main(){
+	C[0][0]=1;
+	for(int i=1;i<N;++i){
+		C[i][0]=1;
+		for(int j=1;j<=i;++j){
+			C[i][j]=(C[i-1][j]+C[i-1][j-1])%mod;
+		}
+	}
+	cin>>k;
+	for(int i=1;i<=26;++i)cin>>c[i];
+	dp[0][0]=1;
+	for(int i=0;i<26;++i){
+		for(int j=0;j<=k;++j){
+			for(int l=0;l<=min(j,c[i+1]);++l){
+				dp[i+1][j]=(dp[i+1][j]+dp[i][j-l]*C[j][l])%mod;
+			}
+		}
+	}
+	for(int i=1;i<=k;++i)ans=(ans+dp[26][i])%mod;
+	cout<<ans; 
+	return 0;
+}
