@@ -1,0 +1,20 @@
+https://atcoder.jp/contests/abc350/tasks/abc350_e
+
+先考虑朴素 DP。dpi表示把 i 变为 0 需要的最少期望代价
+
+#include<bits/stdc++.h>
+using namespace std;
+using ll=long long;
+ll n,A;
+double x,y;
+map<ll,double>dp;
+double dfs(ll i){//map 记搜
+	if(!i)return 0;//初值 dp[0]=0
+	if(dp.count(i))return dp[i];//如果算过就直接返回
+	return dp[i]=min(dfs(i/A)+x,(dfs(i/2)+dfs(i/3)+dfs(i/4)+dfs(i/5)+dfs(i/6))/5+y*1.2);//转移
+}
+int main(){
+	scanf("%lld%lld%lf%lf",&n,&A,&x,&y);
+	printf("%.7lf\n",dfs(n));
+	return 0;
+}
