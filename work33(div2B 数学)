@@ -1,0 +1,18 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long 
+
+signed main(){
+    int tc;
+    cin>>tc;
+    while(tc--){
+        int a,b,k;
+        cin>>a>>b>>k;
+        if(max(a,b)/__gcd(a,b)<=k){//画图 a/gcd(a,b)就是 每次需要移动的距离 且都是整数点
+            cout<<1<<endl;
+        }
+        else{
+            cout<<2<<endl;
+        }
+    }
+}
