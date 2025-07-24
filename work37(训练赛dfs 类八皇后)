@@ -1,0 +1,129 @@
+https://atcoder.jp/contests/abc326/tasks/abc326_d?lang=en
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+
+int n;
+bool check=false;
+string R,C;
+vector<bool> rA,rB,rC;//行中有这个字母 
+vector<bool> cA,cB,cC;//列中有这个字母 
+vector<vector<char>> V1;
+void dfs(int x,int y){
+    if (check==true){
+        return;
+    }
+    if (y==n){
+        if (rA[x]==false || rB[x]==false || rC[x]==false){
+            return;
+        }
+        dfs(x+1,0);
+        return;
+    }
+    if (x==n){
+        for (int i=0;i<n;i++){
+            if (cA[i]==false || cB[i]==false || cC[i]==false){
+                return;
+            }
+        }
+        for (int i=0;i<n;i++){
+            for (int j=0;j<n;j++){
+                if (V1[i][j]!='.'){
+                    if (V1[i][j]!=R[i]){
+                        return;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+        for (int i=0;i<n;i++){
+            for (int j=0;j<n;j++){
+                if (V1[j][i]!='.'){
+                    if (V1[j][i]!=C[i]){
+                        return;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+        check=true;
+        cout << "Yes" << "\n";
+        for (int i=0;i<n;i++){
+            for (int j=0;j<n;j++){
+                cout << V1[i][j];
+            }
+            cout << "\n";
+        }
+        return;
+    }
+    for (char i:{'.','A','B','C'}){
+        if (i=='A'){
+            if (rA[x]==false && cA[y]==false){
+                V1[x][y]=i;
+                rA[x]=true;
+                cA[y]=true;
+                dfs(x,y+1);
+                rA[x]=false;
+                cA[y]=false;
+            }
+        }
+        if (i=='B'){
+            if (rB[x]==false && cB[y]==false){
+                V1[x][y]=i;
+                rB[x]=true;
+                cB[y]=true;
+                dfs(x,y+1);
+                rB[x]=false;
+                cB[y]=false;
+            }
+        }
+        if (i=='C'){
+            if (rC[x]==false && cC[y]==false){
+                V1[x][y]=i;
+                rC[x]=true;
+                cC[y]=true;
+                dfs(x,y+1);
+                rC[x]=false;
+                cC[y]=false;
+            }
+        }
+        if (i=='.'){
+            V1[x][y]=i;
+            dfs(x,y+1);
+        }
+    }
+}
+signed main(){
+    cin >> n;
+    cin >> R;
+    cin >> C;
+    rA.resize(n);
+    rB.resize(n);
+    rC.resize(n);
+    cA.resize(n);
+    cB.resize(n);
+    cC.resize(n);
+    V1.resize(n);
+    for (int i=0;i<n;i++)
+        V1[i].assign(n,'.');//重置空间比直接赋值效率高且安全
+    
+    dfs(0,0);
+    if (check==false){
+        cout << "No";
+    }
+    return 0;
+}
