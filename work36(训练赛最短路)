@@ -1,0 +1,61 @@
+https://atcoder.jp/contests/abc340/tasks/abc340_d
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+vector<PII>g[N]; 
+int d[N];
+void dj()
+{
+	priority_queue<PII,vector<PII>,greater<PII>>q;
+	q.push({0,1});
+	d[1]=0; 
+	while(q.size())
+	{
+	   auto [l,p]=q.top();
+	   q.pop();
+	   for(auto i:g[p])
+	   {
+	   	int x=i.first;
+	   	int y=i.second;
+	    if(d[x]>d[p]+y)
+		{
+		 d[x]=d[p]+y;
+		 q.push({d[x],x});	
+		}	
+	   }	
+	} 
+}
+void solve()
+{ 
+    int n;cin>>n;
+    for(int i=1;i<=n;i++)d[i]=INF;
+	for(int i=1;i<=n-1;i++) 
+	{
+		itn a,b,x;cin>>a>>b>>x;
+		g[i].push_back({i+1,a});
+		g[i].push_back({x,b});
+	}
+	dj(); 
+    cout<<d[n];
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
