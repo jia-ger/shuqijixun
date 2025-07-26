@@ -1,0 +1,50 @@
+https://atcoder.jp/contests/abc359/tasks/abc359_d
+
+设 f(i,p) 表示已经放完前 i 个字符，其中最后 k 个的放置情况为二进制数 p 的方案数，令放 A 为 0，放 B 为 1.
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+const int N=1e3+5;
+const int K=1030;
+const LL MOD=998244353;
+int n,k;
+LL f[N][K],ans;
+int ptn;
+string s;
+bool cmp(char a,char b)
+{
+    if(a=='?'||b=='?') return true;
+    return a==b;
+}
+bool is_palin(int p)
+{
+    for(int i=0;i<(k>>1);++i)
+    {
+        if((p>>i&1) != (p>>(k-i-1)&1))
+            return false;
+    }
+    return true;
+}
+int main()
+{
+    cin>>n>>k>>s;
+    ptn=(1<<k)-1;//长度为k的全1串
+    f[0][0]=1;
+    for(int i=1;i<=n;++i)
+        for(int p=0;p<=ptn;++p) if(f[i-1][p])//之前存在这种状态就可以用来转移
+            for(int c=0;c<2;++c) if(cmp(c+'A',s[i-1]))
+            {
+                if(i<k) (f[i][((p<<1)&ptn)|c]+=f[i-1][p])%=MOD;
+                else
+                {
+                    int PTN=((p<<1)&ptn)|c;//&ptn保证状态只取最后k位
+                    if(!is_palin(PTN))
+                        (f[i][PTN]+=f[i-1][p]) %= MOD;
+                }
+            }
+    for(int j=0;j<=ptn;++j)
+        (ans+=f[n][j]) %= MOD;
+    cout << ans << "\n";
+    return 0;
+}
