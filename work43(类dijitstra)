@@ -1,0 +1,62 @@
+https://ac.nowcoder.com/acm/contest/114408/D
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=1e5+10;
+const int INF=1e18;
+const int mod=1e9+7;
+#define ll __int128
+
+
+int ans[N];
+vector<int>g[N];
+int a[N];
+void dfs(int u,int fa,int s)
+{ 
+  int cnt=0;
+  for(int i=0;i<=32;i++)
+  {
+    if(s>>i&1)cnt++;	
+  }	
+  ans[cnt]++;
+  for(auto i:g[u])
+  {
+  	if(i==fa)continue;
+  	dfs(i,u,s&a[i]);
+  }
+  
+} 
+void solve()
+{ 
+  int n,q;cin>>n>>q;
+  for(int i=1;i<=n;i++)
+  cin>>a[i];
+  for(int i=1;i<n;i++)
+  {
+  	int u,v;cin>>u>>v;
+  	g[u].push_back(v);
+  	g[v].push_back(u);
+  }
+  dfs(1,0,a[1]);
+  while(q--)
+  {
+  	int x;cin>>x;
+  	cout<<ans[x]<<endl;
+   } 
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
