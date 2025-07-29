@@ -1,0 +1,49 @@
+https://atcoder.jp/contests/abc380/tasks/abc380_e
+
+引入两个数组：sum 数组和 s 数组。sum 表示 i 节点的孩子数量；s表示第 i 种颜色的节点数量。
+
+#include<iostream>
+using namespace std;
+#define int long long //可有可无
+const int N=5e5+10;
+int p[N],col[N],sum[N],s[N],mn[N],mx[N];//coli表示一个单元格的颜色 
+int find(int x){ //非常标准的并查集
+	if(x==p[x]) return x;
+	return p[x]=find(p[x]);
+}
+void join(int x,int y){
+	x=find(x),y=find(y);
+	if(x!=y) sum[x]+=sum[y],p[y]=x; //一定要判定 x!=y
+	mx[x]=max(mx[x],mx[y]); //更新区间右端
+	mn[x]=min(mn[x],mn[y]); //更新区间左端
+}
+bool query(int x,int y){
+	return find(x)==find(y);
+}
+signed main(){
+	int n,q;
+	cin>>n>>q;
+	for(int i=1;i<=n;i++) //像屎的初始化
+		p[i]=i,col[i]=i,sum[i]=1,s[i]=1,mn[i]=i,mx[i]=i;
+	while(q--){
+		int op;
+		cin>>op;
+		if(op==1){
+			int x,c;
+			cin>>x>>c;
+			s[col[find(x)]]-=sum[find(x)]; //统计答案
+			s[c]+=sum[find(x)];
+			col[find(x)]=c; //变色
+			//合并
+			if(x>1&&col[find(mn[find(x)]-1)]==c) join(mn[find(x)]-1,x);
+			if(x<n&&col[find(mx[find(x)]+1)]==c) join(x,mx[find(x)]+1);
+		}
+		else{
+			int c; //这要还看不懂就可以退役了
+			cin>>c;
+			cout<<s[c]<<endl;
+		}
+	}
+	return 0; //拜拜程序
+}
+-
