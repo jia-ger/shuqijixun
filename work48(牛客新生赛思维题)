@@ -1,0 +1,28 @@
+https://ac.nowcoder.com/acm/contest/114806/F
+
+#include<bits/stdc++.h> 
+using namespace std;
+#define int long long
+#define endl '\n'
+int a[100010];
+int b[100010];//奇数个数
+int pre[100010];
+signed main( )
+{
+	cin.tie(0)->sync_with_stdio(0);
+	int n;cin>>n;
+	for(int i=1;i<=n;i++){
+		cin>>a[i];
+		pre[i]=pre[i-1]+a[i];
+		if(a[i]%2==1) b[i]=b[i-1]+1;
+		else b[i]=b[i-1];
+	}
+	cout<<a[1]<<' ';
+	for(int i=2;i<=n;i++)
+	{
+		if(b[i]%3==1) cout<<pre[i]-b[i]/3-1<<' ';//比如4 a配两个奇数 b让奇数和偶数配对
+		else cout<<pre[i]-b[i]/3<<' ';
+	}
+    return 0;
+}
+
