@@ -1,0 +1,51 @@
+https://atcoder.jp/contests/abc346/tasks/abc346_d
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=1e9+7;
+#define ll __int128
+
+int c[N];
+int n;
+char s[N];
+int f[N][2][2];
+//f[i][0/1][0/1] 将前i个位置变为010101... j为0则把数变为0 状态0/1：0全为01 1存在s[i]==s[i-1]符合要求 
+void solve()
+{ 
+  icn>>n;
+  for(int i=1;i<=n;i++)
+  cin>>s[i];
+  for(int i=1;i<=n;i++)
+  cin>>c[i];
+  f[2][0][0]=(s[1]=='0')*c[1]+(s[2]=='1')*c[2];
+  f[2][1][0]=(s[1]=='1')*c[1]+(s[2]=='0')*c[2];
+  f[2][0][1]=(s[1]=='1')*c[1]+(s[2]=='1')*c[2];
+  f[2][1][1]=(s[1]=='0')*c[1]+(s[2]=='0')*c[2];
+  for(int i=3;i<=n;i++)
+  {
+    f[i][0][0]=f[i-1][1][0]+(s[i]=='1')*c[i];
+	f[i][1][0]=f[i-1][0][0]+(s[i]=='0')*c[i];
+	f[i][0][1]=min(f[i-1][1][1],f[i-1][0][0])+(s[i]=='1')*c[i];	
+	f[i][1][1]=min(f[i-1][0][1],f[i-1][1][0])+(s[i]=='0')*c[i];	
+  } 
+  int ans=min(f[n][0][1],f[n][1][1]);
+  cout<<ans;
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
