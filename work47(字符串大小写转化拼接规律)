@@ -1,0 +1,52 @@
+https://atcoder.jp/contests/abc380/tasks/abc380_d?lang=en
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=3e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+string s;
+int q; 
+void solve()
+{ 
+  cin>>s>>q;
+  int n=s.size();
+  s=" "+s;
+  while(q--)
+  {
+  	 long long k,p=n;cin>>k;
+        while(k>p)p<<=1;
+        bool f=0;
+        while(k>n){
+            long long tmp=k;
+            if(tmp>p/2)tmp-=p/2,f=!f;
+            k=tmp;p/=2;
+        }
+        if(f){
+            if(isupper(s[k]))cout<<(char)tolower(s[k])<<" ";
+            else cout<<(char)toupper(s[k])<<" ";
+        }
+        else cout<<s[k]<<" ";
+    }
+
+} 
+   
+
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
