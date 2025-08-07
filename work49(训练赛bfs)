@@ -1,0 +1,66 @@
+https://atcoder.jp/contests/abc339/tasks/abc339_d?lang=en
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=1e9+7;
+#define ll __int128
+
+bool f[N];
+priority_queue<PII>q;
+vector<int>ve[N];
+
+void solve()
+{ 
+  int n,m,k;cin>>n>>m>>k;
+
+  for(int i=1;i<=m;i++)
+  {
+  	int u,v;cin>>u>>v;
+  	ve[u].push_back(v);
+  	ve[v].push_back(u);
+  }
+
+  for(int i=1;i<=k;i++)
+  {
+  	int p,h;
+  	cin>>p>>h;
+  	q.push({h,p});//体力 坐标 
+  }
+   while(!q.empty())
+	{
+		auto t=q.top().first;
+		auto z=q.top().second;
+		q.pop();
+		f[z]=1;//这个很重要可以省很多时间
+		if(t==0)continue;
+		for(auto i:ve[z])
+		{
+			if(f[i])continue;
+			q.push({t-1,i});
+		}
+	}
+	set<int>se;
+	for(int i=1;i<=n;i++)
+	if(f[i])se.insert(i);
+	cout<<se.size()<<endl;
+	for(auto i:se)
+	cout<<i<<" ";
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+	return 0;
+}
+  
