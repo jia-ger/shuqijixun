@@ -1,0 +1,52 @@
+https://codeforces.com/contest/2131/problem/D
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=1e9+7;
+#define ll __int128
+
+
+void solve()
+{ 
+    int n;
+    cin >> n;
+    vector<vector<int>> adj(n);
+    for (int i = 1; i < n; i++) {
+        int u, v;
+        std::cin >> u >> v;
+        u--;
+        v--;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+    int leaf = 0;
+    int ans = 0;
+    for (int x = 0; x < n; x++) {//便统计叶子数边算以每个节点作为根节点周围有几个叶子 
+        if (adj[x].size() == 1) {
+            leaf++;
+        }
+        int res = (adj[x].size() == 1);
+        for (auto y : adj[x]) {
+            res += (adj[y].size() == 1);
+        }
+        ans = std::max(ans, res);
+    }
+    cout << leaf - ans << "\n";//一次操作可以使一片叶子连在根节点上 ，总的叶子减去本身连在上面的叶子就是答案 
+} 
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+   cin>>T;
+   while(T--)solve();
+   
+    return 0;
+}
