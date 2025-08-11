@@ -1,0 +1,47 @@
+https://codeforces.com/contest/2131/problem/C
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=1e9+7;
+#define ll __int128
+
+int n,k;
+
+
+void solve()
+{ 
+    cin>>n>>k;
+	std::vector<int>S(n),T(n);
+	for(int i=0;i<n;i++)
+	{
+		std::cin>>S[i];
+		S[i]%=k;
+		S[i]=std::min(S[i],k-S[i]); 
+	} 
+	for(int i=0;i<n;i++)
+	{
+	    std::cin>>T[i];
+		T[i]%=k;
+		T[i]=std::min(T[i],k-T[i]);	
+	} 
+	std::sort(S.begin(),S.end());
+	std::sort(T.begin(),T.end());
+	if(S==T)puts("YES");
+	else puts("NO"); 
+} 
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+   cin>>T;
+   while(T--)solve();
+   
+    return 0;
+}
