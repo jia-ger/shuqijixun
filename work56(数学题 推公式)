@@ -1,0 +1,30 @@
+https://atcoder.jp/contests/abc290/tasks/abc290_d
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=3e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+void solve()
+{   
+   itn n,d,k;
+   cin>>n>>d>>k;k--;
+		cout<<(k*d+k/(n/__gcd(n,d)))%n<<endl;//可以分成gcd(n,d)组 n/gcd(n,d) 可以知道每组几个 k/他 知道偏移量 每组循环 偏移一个
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+   cin>>T;
+   while(T--)solve();
+   
+    return 0;
+}
