@@ -1,0 +1,43 @@
+https://atcoder.jp/contests/abc290/tasks/abc290_e
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+int a[N],ans;
+vector<vector<int>>V(N);
+void solve()
+{   
+   int n; 
+   cin>>n;
+  
+	for(int i=1;i<=n;i++)cin>>a[i],V[a[i]].push_back(i);
+	for(int i=1;i<=n;i++){
+		ans+=(n-i+1)*(i/2);
+		//计算所有线的数量 长度为i的区间可划分n-i+1个 长度为i的区间能连i/2条线 
+		int l=0,r=V[i].size()-1;
+		while(l<r){
+			ans-=(r-l)*min(V[i][l],n+1-V[i][r]);//ans减去"好线"的数量就是坏线的数量 
+			(V[i][l]<(n+1-V[i][r]))?l++:r--;//类似双指针写法 
+		}
+	}
+	cout<<ans;
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+    return 0;
+}
