@@ -1,0 +1,50 @@
+https://atcoder.jp/contests/abc419/tasks/abc419_e
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+//#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=505;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+int n,m,l;
+int a[N];
+int dp[N][N];//前i组元素 总余数为j的总操作数 
+int g[N][N];//第i个第i+l...i+kl个数 余数为j的操作数 
+void solve()
+{   
+  cin>>n>>m>>l;
+  for(int i=1;i<=n;i++)
+  cin>>a[i],a[i]%=m;
+  
+  for(int i=1;i<=l;i++)
+  for(int j=0;j<m;j++)
+  for(int k=i;k<=n;k+=l)
+  g[i][j]+=(j-a[k]+m)%m;
+  
+  memset(dp,0x3f,sizeof dp) ;
+  dp[0][0]=0;
+  for(int i=1;i<=l;i++)
+  for(int j=0;j<m;j++)
+  for(int k=0;k<m;k++)
+  dp[i][j]=min(dp[i][j],g[i][k]+dp[i-1][(j-k+m)%m]);
+  //如果第i组贡献了k（模m），那么前i-1组需要贡献(j-k)模m这样才能使前i组的总贡献为j模m
+  
+  cout<<dp[l][0]; 
+  
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+    return 0;
+}
