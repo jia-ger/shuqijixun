@@ -1,0 +1,43 @@
+https://atcoder.jp/contests/abc341/tasks/abc341_d
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=505;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+int n,m,k,x;
+itn check(int mid)
+{
+	int sum=mid/n+mid/m-mid/x*2;
+	return sum>=k;
+}
+void solve()
+{   
+  cin>>n>>m>>k;
+  x=n*m/__gcd(n,m);
+  int l=0,r=5e18;
+  while(l<r)
+  {
+  	int mid=l+r>>1;
+  	if(check(mid))r=mid;
+  	else l=mid+1;
+  }
+  cout<<l;
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+    return 0;
+}
