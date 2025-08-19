@@ -1,0 +1,37 @@
+https://atcoder.jp/contests/abc296/tasks/abc296_d
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+itn n,m;
+void solve()
+{   
+    cin >> n >> m;
+    int ans=1e18;
+	for(int i = 1; i * i <= m * 2; ++ i) 
+	{
+		int j = m / i + (m % i != 0);
+		if(i <= n && j <= n) 
+		ans = min(ans, i * j);
+	}
+	cout << (ans == 1e18 ? -1 : ans);
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+    return 0;
+}
