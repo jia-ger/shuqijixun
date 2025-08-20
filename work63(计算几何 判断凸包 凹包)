@@ -1,0 +1,71 @@
+https://ac.nowcoder.com/acm/contest/116216/J
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=2e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+
+void solve()
+{   
+   
+    int n;
+    cin >> n;
+    vector<PII> a(n);
+    for(auto &[x, y] : a) cin >> x >> y;
+    int sign = 0;
+    for (int i = 0; i < n; i++) {
+        int pre = (i - 1 + n) % n;
+        int nxt = (i + 1) % n;
+        int x1 = a[i].first - a[pre].first;
+        int y1 = a[i].second - a[pre].second;
+        int x2 = a[nxt].first - a[i].first;
+        int y2 = a[nxt].second - a[i].second;
+        if(x1 * y2 - y1 * x2 < 0){
+            cout << "Yes" << endl;
+            return ;
+        }
+         
+    }
+    cout << "No" << endl;
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+//   cin>>T;
+   while(T--)solve();
+   
+    return 0;
+}
+
+构造两个向量：
+向量 A = P0 -> P1 (即前一条边)
+向量 B = P1 -> P2 (即后一条边)
+(注意：对于首尾顶点需要做循环处理，例如判断 P0 时，前一个点是 Pn-1，后一个点是 P1)
+计算叉积：
+计算向量 A 和向量 B 的叉积（Cross Product）。
+在二维中，叉积 A × B 的计算公式为：
+A × B = (A.x * B.y) - (A.y * B.x)
+
+根据叉积结果和顶点顺序判断：
+叉积的值是一个标量，但其符号具有重要的几何意义：
+
+如果多边形顶点是逆时针排列：
+叉积 > 0：顶点 P1 是 凸 的。
+叉积 < 0：顶点 P1 是 凹 的。
+
+叉积 = 0：三点共线。
+
+如果多边形顶点是顺时针排列，则符号意义相反：
+叉积 > 0：顶点 P1 是 凹 的。
+叉积 < 0：顶点 P1 是 凸 的。
+叉积 = 0：三点共线。
