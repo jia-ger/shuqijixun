@@ -1,0 +1,24 @@
+计算凸包（或任何简单多边形）的面积有一个非常高效和经典的算法：鞋带公式（Shoelace Formula），也称为高斯面积公式。
+原理
+公式通过将多边形上的每个顶点与坐标原点（或其他固定点）构成三角形，并利用向量叉积的有向面积特性，将这些三角形的有向面积相加，最终取绝对值得到总面积。
+
+struct Point {
+    double x, y;
+};
+double convexHullArea(const std::vector<Point>& points) {
+    int n = points.size();
+    if (n < 3) return 0.0;
+
+    double area = 0.0;
+    for (int i = 0; i < n; ++i) {
+        int j = (i + 1) % n;
+        area += (points[i].x * points[j].y) - (points[j].x * points[i].y);
+    }
+    return std::abs(area) / 2.0;
+}
+int main() {
+    std::vector<Point> square = {{0, 0}, {2, 0}, {2, 2}, {0, 2}};
+    std::cout << convexHullArea(square) << std::endl; // 输出 4
+
+    return 0;
+}
