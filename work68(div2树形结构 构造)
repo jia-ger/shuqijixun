@@ -1,0 +1,86 @@
+https://codeforces.com/contest/2134/problem/D
+
+#include <bits/stdc++.h>
+using namespace std;
+#define itn int
+#define icn cin
+#define int long long
+#define endl '\n'
+typedef pair<int,int> PII;
+const int N=1e5+10;
+const int INF=1e18;
+const int mod=998244353;
+#define ll __int128
+
+
+void solve()
+{   
+   int n;
+    std::cin >> n;
+    std::vector<std::vector<int>> adj(n);
+    for (int i = 1; i < n; i++) {
+        int u, v;
+        std::cin >> u >> v;
+        u--;
+        v--;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+    std::vector<int> dis, p;
+    auto bfs = [&](int s) -> int {
+        dis.assign(n, -1);
+        p.assign(n, -1);
+        
+        std::queue<int> q;
+        q.push(s);
+        dis[s] = 0;
+        
+        while (!q.empty()) {
+            int x = q.front();
+            q.pop();
+            
+            for (auto y : adj[x]) {
+                if (dis[y] == -1) {
+                    dis[y] = dis[x] + 1;
+                    p[y] = x;
+                    q.push(y);
+                }
+            }
+        }
+        
+        return std::max_element(dis.begin(), dis.end()) - dis.begin();
+    };
+    
+    int s = bfs(0);
+    int t = bfs(s);//把dis顺序换一下 使其是从最远点向根节点扩散 
+    
+    if (dis[t] == n - 1) {
+        std::cout << -1 << "\n";
+        return;
+    }
+    
+    int x = t;
+    int lst = -1;
+    while (adj[x].size() <= 2) {//如果是链子就不用管 
+        lst = x;
+        x = p[x];
+    }
+    
+    for (auto y : adj[x]) {//把左侧的链子加到主链外的点上 可以使主链长度+1 
+        if (y != lst && y != p[x]) {
+            cout << p[x] + 1 << " " << x + 1 << " " << y + 1 << "\n";
+            return;
+        }
+    }
+} 
+
+
+signed main(){
+   cin.tie(0)->sync_with_stdio(0);	 
+   int T=1; 
+   cin>>T;
+   while(T--)solve();
+   
+    return 0;
+}
