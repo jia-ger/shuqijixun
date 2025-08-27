@@ -1,0 +1,24 @@
+https://codeforces.com/contest/2134/problem/B
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  int t;
+  cin >> t;
+  while (t--) {
+    int n, k;
+    cin >> n >> k;
+    vector<long long> a(n);
+    for (auto &i : a) {
+      cin >> i;
+      i += (i % (k + 1)) * k;//要变成k+1的倍数 每次加k %（k+1）就会少1 
+    }
+    for (auto i : a)
+      cout << i << ' ';
+    cout << '\n';
+  }
+}
